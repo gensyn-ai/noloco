@@ -1,0 +1,16 @@
+defaults:
+  - _self_
+  - c4_base
+
+model:
+  _target_: dipaco.pipeline_llama.DiPaCoLlamaBuilder
+  hidden_size: 768
+  intermediate_size: 3072 # 4x hidden_size
+  num_attention_heads: 12
+  num_hidden_layers: 12
+
+scheduler:
+  _target_: weighted_diloco.schedulers.CosineWarmupLRBuilder
+  min_lr: 6e-5
+  max_steps: 25000
+  warmup_steps: 1000

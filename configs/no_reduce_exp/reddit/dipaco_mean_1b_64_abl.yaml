@@ -1,0 +1,42 @@
+# Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
+# and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
+
+exp_name: dipaco_mean_1b_64_abl
+num_steps: 25000
+eval_steps: -1
+evalulation_interval: 500
+dp_world_size: 16
+batch_size: 128
+log_dir: /home/gensyn/shared/jari/experiments
+transformer_engine: false
+
+train_data_loader:
+  _target_: weighted_diloco.data_loaders.ShardedDataset
+  path: /home/gensyn/shared/data/reddit/training_data/*.parquet
+
+validation_data_loaders:
+  dev:
+    _target_: weighted_diloco.data_loaders.ShardedDataset
+    path: /home/gensyn/shared/data/reddit/validation_data/*.parquet
+
+# intermediate_size = 4 x hidden_size
+model:
+  _target_: dipaco.pipeline_llama.DiPaCoLlamaBuilder
+  hidden_size: 2048
+  intermediate_size: 8192
+  num_attention_heads: 32
+  num_hidden_layers: 24
+
+optimizer:
+  _target_: dipaco.sparse_optimizer_c.SparseOptimizerCBuilder
+  number_of_local_steps: 50
+  local_group_size: 2
+  outer_lr: 0.7
+  outer_momentum: 0.5
+  lr: 2e-4
+
+scheduler:
+  _target_: weighted_diloco.schedulers.CosineWarmupLRBuilder
+  min_lr: 2e-5
+  max_steps: 25000
+  warmup_steps: 1000

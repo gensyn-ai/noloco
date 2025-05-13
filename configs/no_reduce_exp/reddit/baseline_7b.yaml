@@ -1,0 +1,38 @@
+# Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
+# and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
+
+exp_name: fsdp_7b
+num_steps: 25000
+eval_steps: -1
+evalulation_interval: 100
+dp_world_size: 32
+batch_size: 62
+log_dir: /data/logs
+transformer_engine: true
+
+train_data_loader:
+  _target_: weighted_diloco.data_loaders.ShardedDataset
+  path: /data/reddit/training_data/*.parquet
+
+validation_data_loaders:
+  dev:
+    _target_: weighted_diloco.data_loaders.ShardedDataset
+    path: /data/reddit/validation_data/*.parquet
+
+# size ~ num_layers * 12 * hidden_size^12 + vocab_size * hidden_size
+model:
+  _target_: dipaco.pipeline_llama.DiPaCoLlamaBuilder
+  hidden_size: 4096
+  intermediate_size: 16384 # 4x hidden_size
+  num_attention_heads: 32
+  num_hidden_layers: 32
+
+optimizer:
+  _target_: dipaco.dp_optimizer.DataParallelOptimizerBuilder
+  lr: 1.2e-4
+
+scheduler:
+  _target_: weighted_diloco.schedulers.CosineWarmupLRBuilder
+  min_lr: 1.2e-5
+  max_steps: 25000
+  warmup_steps: 1000

@@ -1,0 +1,27 @@
+defaults:
+  - _self_
+
+num_steps: 25000
+eval_steps: -1
+evalulation_interval: 500
+transformer_engine: false
+
+sequence_length: &sequence_length 1024
+access_token: &access_token insert_your_access_token_here
+tokenizer: &tokenizer meta-llama/Meta-Llama-3-8B
+
+train_data_loader:
+  _target_: dipaco.c4_data_loader.TokenizedHuggingFaceShardedDataset
+  partition: train
+  tokenizer_path: *tokenizer
+  sequence_length: *sequence_length
+  access_token: *access_token
+
+validation_data_loaders:
+  dev:
+    _target_: dipaco.c4_data_loader.TokenizedHuggingFaceShardedDataset
+    partition: validation
+    shard_on_samples: True
+    tokenizer_path: *tokenizer
+    sequence_length: *sequence_length
+    access_token: *access_token

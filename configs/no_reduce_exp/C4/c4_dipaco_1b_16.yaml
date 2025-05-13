@@ -1,0 +1,17 @@
+# Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
+# and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
+defaults:
+  - _self_
+  - c4_base_1b
+
+exp_name: c4_dipaco_1b_16
+dp_world_size: 8
+batch_size: 128
+log_dir: /home/gensyn/shared/jari/experiments
+
+optimizer:
+  _target_: dipaco.pipeline_diloco_optimizer.PipelineDiLoCoOptimizerBuilder
+  number_of_local_steps: 100
+  outer_lr: 0.7
+  outer_momentum: 0.3
+  lr: 2e-4

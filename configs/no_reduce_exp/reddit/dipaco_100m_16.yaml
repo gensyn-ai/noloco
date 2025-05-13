@@ -1,0 +1,41 @@
+# Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
+# and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
+
+exp_name: dipaco_100m_16
+num_steps: 25000
+eval_steps: -1
+evalulation_interval: 500
+dp_world_size: 8
+batch_size: 64
+log_dir: /root/experiments
+transformer_engine: false
+
+train_data_loader:
+  _target_: weighted_diloco.data_loaders.ShardedDataset
+  path: /root/data/training_data/*.parquet
+
+validation_data_loaders:
+  dev:
+    _target_: weighted_diloco.data_loaders.ShardedDataset
+    path: /root/data/validation_data/*.parquet
+
+# intermediate_size = 4 x hidden_size
+model:
+  _target_: dipaco.pipeline_llama.DiPaCoLlamaBuilder
+  hidden_size: 768
+  intermediate_size: 3072 # 4x hidden_size
+  num_attention_heads: 12
+  num_hidden_layers: 12
+
+optimizer:
+  _target_: dipaco.pipeline_diloco_optimizer.PipelineDiLoCoOptimizerBuilder
+  number_of_local_steps: 100
+  outer_lr: 0.7
+  outer_momentum: 0.3
+  lr: 6e-4
+
+scheduler:
+  _target_: weighted_diloco.schedulers.CosineWarmupLRBuilder
+  min_lr: 6e-5
+  max_steps: 25000
+  warmup_steps: 1000

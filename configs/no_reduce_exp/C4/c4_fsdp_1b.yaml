@@ -1,0 +1,14 @@
+# Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
+# and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
+defaults:
+  - _self_
+  - c4_base_1b
+
+exp_name: c4_fsdp_1b
+dp_world_size: 16
+batch_size: 64
+log_dir: /home/gensyn/shared/jari/experiments
+
+optimizer:
+  _target_: dipaco.dp_optimizer.DataParallelOptimizerBuilder
+  lr: 2e-4
