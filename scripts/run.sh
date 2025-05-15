@@ -9,6 +9,6 @@ torchrun \
     --rdzv-id=dipaco.run \
     --rdzv-backend=c10d \
     --rdzv-endpoint="$MASTER_ADDR:$MASTER_PORT" \
-    "$ROOT/src/noloco/train.py" \
+    "$ROOT/src/dipaco/train.py" \
     --config-path "$ROOT/configs/C4" \
     --config-name c4_dipaco_7b_64.yaml
