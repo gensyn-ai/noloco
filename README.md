@@ -1,7 +1,7 @@
 # Run Instructions
 
 ## Installation
-Run following commands on a machine equipped with Nvidia GPUs.
+Run the following commands on a machine equipped with Nvidia GPUs.
 ```commandline
 pip install .
 ```
@@ -9,7 +9,8 @@ pip install .
 ## Running experiments
 
 ### Configs
-Prepare yaml configs (examples can be found under configs/no_reduce/C4) by modifying the c4_base.yaml to incorporate correct HuggingFace access token and ensure that you have access (with the token) to download the Llama3 tokenizer. Add path into the data loaders that point to the local copy of the raw HuggingFace C4 english partition.
+Prepare the yaml configs (examples can be found under configs/no_reduce/C4) by modifying the c4_base.yaml to incorporate the correct HuggingFace access token and ensure that you have access (with the token) to download the Llama3 tokenizer. 
+Add the correct path to the data loaders that point to the local copy of the raw HuggingFace C4 english partition.
 
 ```commandline
 train_data_loader:
@@ -22,7 +23,7 @@ train_data_loader:
 ```
 
 ### Running
-Got to the script folder and modify run.sh to include the config you want to run (e.g. c4_diloco_100m_8.yaml):
+Go to the script folder and modify run.sh to include the config you want to run (e.g. c4_diloco_100m_8.yaml):
 ```commandline
 #!/bin/bash
 
@@ -40,4 +41,6 @@ torchrun \
     --config-name c4_diloco_100m_8.yaml
 ```
 
-Note that the total number of workers is dictated by nnodes and nproc-per-node (in this case 8). Launch the training by running the script in every node that should participate on the training. The environmental variables MASTER_ADDR and MASTER_PORT should be set to match one of the nodes with a port and IP address that is reacheble from all nodes.
+Note that the total number of workers is dictated by nnodes and nproc-per-node (in this case 8).
+Launch the training by running the script in every node that should participate.
+The environment variables `MASTER_ADDR` and `MASTER_PORT` should be set to match one of the nodes with a port and IP address that is reachable from all nodes.
