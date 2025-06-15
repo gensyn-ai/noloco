@@ -10,7 +10,7 @@ batch_size: 64
 log_dir: /home/gensyn/shared/jari/experiments
 
 optimizer:
-  _target_: dipaco.sparse_optimizer_c.SparseOptimizerCBuilder
+  _target_: noloco.sparse_optimizer_c.SparseOptimizerCBuilder
   number_of_local_steps: 50
   local_group_size: 2
   outer_lr: 0.7

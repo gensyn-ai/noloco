@@ -3,14 +3,14 @@ defaults:
   - c4_base
 
 model:
-  _target_: dipaco.pipeline_llama.DiPaCoLlamaBuilder
+  _target_: noloco.pipeline_llama.DiPaCoLlamaBuilder
   hidden_size: 4096
   intermediate_size: 16384
   num_attention_heads: 32
   num_hidden_layers: 32
 
 scheduler:
-  _target_: weighted_diloco.schedulers.CosineWarmupLRBuilder
+  _target_: noloco.schedulers.CosineWarmupLRBuilder
   min_lr: 1.2e-5
   max_steps: 25000
   warmup_steps: 1000

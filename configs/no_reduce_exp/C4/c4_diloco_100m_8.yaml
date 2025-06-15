@@ -10,7 +10,7 @@ batch_size: 64
 log_dir: /home/gensyn/shared/jari/experiments
 
 optimizer:
-  _target_: dipaco.pipeline_diloco_optimizer.PipelineDiLoCoOptimizerBuilder
+  _target_: noloco.pipeline_diloco_optimizer.PipelineDiLoCoOptimizerBuilder
   number_of_local_steps: 100
   outer_lr: 0.7
   outer_momentum: 0.3

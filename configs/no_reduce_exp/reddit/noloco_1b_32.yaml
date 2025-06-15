@@ -1,14 +1,14 @@
 # Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
 # and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
 
-exp_name: fsdp_no_reduce_100m_4dp
+exp_name: noloco_1b_32
 num_steps: 25000
 eval_steps: -1
-evalulation_interval: 200
-dp_world_size: 4
-batch_size: 128
+evalulation_interval: 500
+dp_world_size: 16
+batch_size: 64
 log_dir: /home/gensyn/shared/jari/experiments
-transformer_engine: true
+transformer_engine: false
 
 train_data_loader:
   _target_: noloco.data_loaders.ShardedDataset
@@ -22,17 +22,20 @@ validation_data_loaders:
 # intermediate_size = 4 x hidden_size
 model:
   _target_: noloco.pipeline_llama.DiPaCoLlamaBuilder
-  hidden_size: 768
-  intermediate_size: 3072
-  num_attention_heads: 12
-  num_hidden_layers: 12
+  hidden_size: 2048
+  intermediate_size: 8192
+  num_attention_heads: 32
+  num_hidden_layers: 24
 
 optimizer:
-  _target_: noloco.local_optimizer.AdamOptimizerBuilder
-  lr: 6e-4
+  _target_: noloco.pipeline_diloco_optimizer.PipelineDiLoCoOptimizerBuilder
+  number_of_local_steps: 100
+  outer_lr: 0.7
+  outer_momentum: 0.3
+  lr: 2e-4
 
 scheduler:
   _target_: noloco.schedulers.CosineWarmupLRBuilder
-  min_lr: 6e-5
+  min_lr: 2e-5
   max_steps: 25000
   warmup_steps: 1000

@@ -10,5 +10,5 @@ batch_size: 64
 log_dir: /home/gensyn/shared/jari/experiments
 
 optimizer:
-  _target_: dipaco.dp_optimizer.DataParallelOptimizerBuilder
+  _target_: noloco.dp_optimizer.DataParallelOptimizerBuilder
   lr: 6e-4

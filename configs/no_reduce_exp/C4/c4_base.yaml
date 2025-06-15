@@ -11,7 +11,7 @@ access_token: &access_token insert_your_access_token_here
 tokenizer: &tokenizer meta-llama/Meta-Llama-3-8B
 
 train_data_loader:
-  _target_: dipaco.c4_data_loader.TokenizedHuggingFaceShardedDataset
+  _target_: noloco.c4_data_loader.TokenizedHuggingFaceShardedDataset
   partition: train
   tokenizer_path: *tokenizer
   sequence_length: *sequence_length
@@ -19,7 +19,7 @@ train_data_loader:
 
 validation_data_loaders:
   dev:
-    _target_: dipaco.c4_data_loader.TokenizedHuggingFaceShardedDataset
+    _target_: noloco.c4_data_loader.TokenizedHuggingFaceShardedDataset
     partition: validation
     shard_on_samples: True
     tokenizer_path: *tokenizer

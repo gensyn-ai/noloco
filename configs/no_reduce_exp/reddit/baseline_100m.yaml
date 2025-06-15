@@ -11,28 +11,28 @@ log_dir: /home/gensyn/shared/johnny/no_reduce/baseline_100m
 transformer_engine: true
 
 train_data_loader:
-  _target_: weighted_diloco.data_loaders.ShardedDataset
+  _target_: noloco.data_loaders.ShardedDataset
   path: /home/gensyn/shared/data/reddit/training_data/*.parquet
 
 validation_data_loaders:
   dev:
-    _target_: weighted_diloco.data_loaders.ShardedDataset
+    _target_: noloco.data_loaders.ShardedDataset
     path: /home/gensyn/shared/data/reddit/validation_data/*.parquet
 
 # size ~ num_layers * 12 * hidden_size^12 + vocab_size * hidden_size
 model:
-  _target_: dipaco.pipeline_llama.DiPaCoLlamaBuilder
+  _target_: noloco.pipeline_llama.DiPaCoLlamaBuilder
   hidden_size: 768
   intermediate_size: 3072 # 4x hidden_size
   num_attention_heads: 12
   num_hidden_layers: 12
 
 optimizer:
-  _target_: dipaco.dp_optimizer.DataParallelOptimizerBuilder
+  _target_: noloco.dp_optimizer.DataParallelOptimizerBuilder
   lr: 6e-4
 
 scheduler:
-  _target_: weighted_diloco.schedulers.CosineWarmupLRBuilder
+  _target_: noloco.schedulers.CosineWarmupLRBuilder
   min_lr: 6e-5
   max_steps: 25000
   warmup_steps: 1000

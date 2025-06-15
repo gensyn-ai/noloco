@@ -1,34 +1,38 @@
 # Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
 # and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
 
-exp_name: fsdp_no_reduce_100m_4dp
+exp_name: noloco_mean_100m_16
 num_steps: 25000
 eval_steps: -1
-evalulation_interval: 200
-dp_world_size: 4
-batch_size: 128
-log_dir: /home/gensyn/shared/jari/experiments
-transformer_engine: true
+evalulation_interval: 500
+dp_world_size: 8
+batch_size: 64
+log_dir: /root/experiments
+transformer_engine: false
 
 train_data_loader:
   _target_: noloco.data_loaders.ShardedDataset
-  path: /home/gensyn/shared/data/reddit/training_data/*.parquet
+  path: /root/data/training_data/*.parquet
 
 validation_data_loaders:
   dev:
     _target_: noloco.data_loaders.ShardedDataset
-    path: /home/gensyn/shared/data/reddit/validation_data/*.parquet
+    path: /root/data/validation_data/*.parquet
 
 # intermediate_size = 4 x hidden_size
 model:
   _target_: noloco.pipeline_llama.DiPaCoLlamaBuilder
   hidden_size: 768
-  intermediate_size: 3072
+  intermediate_size: 3072 # 4x hidden_size
   num_attention_heads: 12
   num_hidden_layers: 12
 
 optimizer:
-  _target_: noloco.local_optimizer.AdamOptimizerBuilder
+  _target_: noloco.sparse_optimizer_c.SparseOptimizerCBuilder
+  number_of_local_steps: 50
+  local_group_size: 2
+  outer_lr: 0.7
+  outer_momentum: 0.5
   lr: 6e-4
 
 scheduler:

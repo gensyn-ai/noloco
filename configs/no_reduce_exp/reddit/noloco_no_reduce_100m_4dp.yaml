@@ -1,7 +1,7 @@
 # Model size and learning parameters are inspired from https://github.com/karpathy/llama2.c 
 # and Super Tiny Language Models paper https://arxiv.org/pdf/2405.14159v1
 
-exp_name: fsdp_no_reduce_100m_4dp
+exp_name: noloco_no_reduce_100m_4dp
 num_steps: 25000
 eval_steps: -1
 evalulation_interval: 200
