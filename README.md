@@ -6,8 +6,7 @@ This repository implements __NoLoCo__, a novel optimization method designed to r
 
 The full paper is available on [arXiv](https://arxiv.org/abs/2506.10911). 
 
-- HuggingFace paper : 
-<a href="https://huggingface.co/papers/2506.10911?utm_source=chatgpt.com" target="_blank">
+- HuggingFace paper : <a href="https://huggingface.co/papers/2506.10911?utm_source=chatgpt.com" target="_blank">
   <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face" width="20"/>
 </a>
 
