@@ -71,7 +71,7 @@ The Reddit data must be **pre-tokenized** by the user prior to training. To prep
 
 The expected data format matches the input format used in [gensyn-ai/hdee](https://github.com/gensyn-ai/hdee), so you can refer to that repository for an exact schema and preprocessing example.
 
-### Step 3. Run Traning Job
+### Step 3. Run Training Job
 Navigate to the `script` folder and modify `run.sh` to specify the configuration file you want to use (e.g., `c4_diloco_100m_8.yaml`):
 ```bash
 #!/bin/bash
