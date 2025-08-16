@@ -225,7 +225,7 @@ def main(cfg: DictConfig) -> None:
                     for key, dev_loss in dev_losses.items():
                         writer.add_scalar(f"Loss/{key}_ppl", dev_loss.item(), step)
                     writer.add_scalar(
-                        "Time/step", time_spent / evalulation_interval, step
+                        "Time/step", time_spent / evaluation_interval, step
                     )
                     writer.add_scalar("Model/std", weight_std, step)
 
