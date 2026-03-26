@@ -171,7 +171,7 @@ def main(cfg: DictConfig) -> None:
             labels = batch["label"].to(device=device)
             optimizer.zero_grad()
             loss = model(input_ids, labels)
-            loss.backward(torch.ones_like(loss))
+            loss.backward(torch.ones_like(loss)) # why do we need the ones?
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
             scheduler.step()

@@ -112,7 +112,7 @@ class DiPaCoLlamaBuilder:
         intermediate_size: int,
         num_attention_heads: int,
         num_hidden_layers: int,
-        attn_implementation: str = "flash_attention_2",
+        attn_implementation: str = "kernels/flash_attention_2",
         vocab_size=128002,  # matches "meta-llama/Meta-Llama-3-8B" (128000 + 2)
     ):
         self.config = LlamaConfig(
